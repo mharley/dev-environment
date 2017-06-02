@@ -1,0 +1,20 @@
+# Ignore editor settings
+*~
+*.swp
+*.swo
+.idea
+.project
+nbproject
+.DS_STORE
+
+# Environment file.
+.env
+
+# Data Files
+docker/nginx/sites-enabled/*.conf
+docker/percona/data
+docker/mariadb/data
+
+# Projects folder
+projects/*
+!projects/README.md
