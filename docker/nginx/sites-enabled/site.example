@@ -1,0 +1,23 @@
+#server {
+#    listen 80;
+#
+#    server_name local.site.com;
+#
+#    # The location of our project's public directory.
+#    root /var/www/html/projects/{path_to_your_project;
+#
+#    index index.php;
+#
+#    location / {
+#        # URLs to attempt, including pretty ones.
+#        try_files   $uri $uri/ /index.php?$query_string;
+#    }
+#
+#    location ~ \.php$ {
+#        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+#        fastcgi_pass php-upstream; #Note the upstream name
+#        fastcgi_index index.php;
+#        include fastcgi_params;
+#        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+#    }
+#}

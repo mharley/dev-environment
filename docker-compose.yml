@@ -1,0 +1,63 @@
+version: '2'
+
+services:
+    nginx:
+        container_name: nginx
+        build: ./docker/nginx
+        restart: always
+        ports:
+            - 80:80
+            - 443:443
+        volumes_from:
+            - app
+        links:
+            - phpfpm
+        networks:
+            - dev_network
+    phpfpm:
+        container_name: phpfpm
+        build: ./docker/php71
+        restart: always
+        expose:
+            - 9000
+        volumes_from:
+            - app
+        networks:
+            - dev_network
+    db:
+        container_name: db
+        build: ./docker/${DB_DRIVER}
+        restart: always
+        volumes:
+            - ./docker/${DB_DRIVER}/data:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+        ports:
+            - 3306:3306
+        networks:
+            - dev_network
+    redis:
+        container_name: redis
+        build: ./docker/redis
+        restart: always
+        expose:
+            - 6379
+        networks:
+            - dev_network
+    app:
+        build:
+            context: .
+            dockerfile: ./docker/app/Dockerfile
+            args:
+                - NODE_VERSION=7.x
+        links:
+            - db
+            - redis
+        volumes:
+            - .:/var/www/html
+        command: "true"
+        networks:
+            - dev_network
+networks:
+    dev_network:
+        driver: "bridge"
